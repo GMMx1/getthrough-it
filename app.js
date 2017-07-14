@@ -1,12 +1,14 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 
+import enableCors from './middlewares/enableCors'
 import v1 from './routes/v1'
 import { PORT } from './config'
 
 const app = express()
 
 app.use(bodyParser.json())
+app.use(enableCors)
 
 app.use('/v1', ...v1)
 
