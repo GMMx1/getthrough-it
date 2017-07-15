@@ -1,0 +1,5 @@
+PORT=8000
+
+GITHUB_CLIENT_ID=[replace your own here]
+GITHUB_CLIENT_SECRET=[replace your own here]
+GITHUB_CALLBACK_URL=[replace your own here]
