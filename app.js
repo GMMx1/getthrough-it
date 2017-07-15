@@ -1,5 +1,6 @@
 import express from 'express'
 import bodyParser from 'body-parser'
+import morgan from 'morgan'
 
 import enableCors from './middlewares/enableCors'
 import v1 from './routes/v1'
@@ -9,6 +10,8 @@ const app = express()
 
 app.use(bodyParser.json())
 app.use(enableCors)
+
+app.use(morgan('dev'))
 
 app.use('/v1', ...v1)
 
