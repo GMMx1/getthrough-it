@@ -25,8 +25,16 @@ passport.use(new GitHubStrategy({
   function(accessToken, refreshToken, profile, done) {
     console.log(profile)
     UserModel
-      .findOrCreate({ where: {github_uid: profile.id} })
-      .then(done.bind(null, null))
+      .findOrCreate({ where: {
+        github_uid: profile.id,
+        display_name: profile.displayName,
+        email: profile.emails[0].value,
+        photo_url: profile._json.avatar_url
+        }
+      })
+      .then((user) => {
+        done(null, user.dataValues)
+      })
       .catch(done)
   }
 ))
@@ -41,8 +49,8 @@ passport.deserializeUser((id, done) => {
     .then((user) => {
       done(null, {
         id: user.id,
-        display_name: user.display_name || undefined,
-        email: user.email || undefined,
+        display_name: user.display_name,
+        email: user.email,
         photo_url: user.photo_url
       })
     })
