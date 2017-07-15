@@ -25,21 +25,22 @@ passport.use(new GitHubStrategy({
   function(accessToken, refreshToken, profile, done) {
     console.log(profile)
     UserModel
-      .findOrCreate(
-      { github_uid: profile.id },
-      {
-        github_uid: profile.id
-        //more fields here
-      },
-      { new: true, upsert: true },
-      )
-      .then(done.bind(null, null))
+      .findOrCreate({ where: {
+        github_uid: profile.id,
+        display_name: profile.displayName,
+        email: profile.emails[0].value,
+        photo_url: profile._json.avatar_url
+        }
+      })
+      .then((user) => {
+        done(null, user.dataValues)
+      })
       .catch(done)
   }
 ))
 
 passport.serializeUser((user, done) => {
-  done(null, user._id)
+  done(null, user.id)
 })
 
 passport.deserializeUser((id, done) => {
@@ -47,9 +48,9 @@ passport.deserializeUser((id, done) => {
     .findById(id)
     .then((user) => {
       done(null, {
-        _id: user._id,
-        display_name: user.display_name || undefined,
-        email: user.email || undefined,
+        id: user.id,
+        display_name: user.display_name,
+        email: user.email,
         photo_url: user.photo_url
       })
     })
@@ -58,6 +59,6 @@ passport.deserializeUser((id, done) => {
 const router = express.Router()
 
 router.get(AUTH_GITHUB, passport.authenticate('github', { scope: ['email profile'] }))
-router.get(AUTH_GITHUB_CALLBACK, passport.authenticate('github', { successRedirect: '/'}))
+router.get(AUTH_GITHUB_CALLBACK, passport.authenticate('github', { successRedirect: 'http://localhost:3000/lobby/:id'}))
 
 export default router
