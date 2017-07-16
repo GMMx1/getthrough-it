@@ -1,22 +1,24 @@
 import express from 'express'
-
 import passport from 'passport'
-import passportGithub from 'passport-github2'
-import db from '../../models'
+import { Strategy as GitHubStrategy } from 'passport-github2'
+
 import {
   GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET,
   GITHUB_CALLBACK_URL
-} from '../../config'
+} from '../config'
 
 import {
   AUTH_GITHUB,
   AUTH_GITHUB_CALLBACK,
   AUTH_ME
-} from '../routes'
+} from './routes'
 
-const GitHubStrategy = passportGithub.Strategy
+import db from '../models'
+
+const router = express.Router()
 const UserModel = db['User']
+
 passport.use(new GitHubStrategy({
   clientID: GITHUB_CLIENT_ID,
   clientSecret: GITHUB_CLIENT_SECRET,
@@ -56,9 +58,8 @@ passport.deserializeUser((id, done) => {
     })
 })
 
-const router = express.Router()
-
 router.get(AUTH_GITHUB, passport.authenticate('github', { scope: ['email profile'] }))
+
 router.get(AUTH_GITHUB_CALLBACK, passport.authenticate('github', { successRedirect: 'http://localhost:3000/lobby/:id'}))
 
 export default router
