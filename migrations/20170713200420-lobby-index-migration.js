@@ -13,6 +13,6 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize) {
-    queryInterface.removeIndex('Lobbies', 'lobbyIdx')
+    return queryInterface.removeIndex('Lobbies', 'lobbyIdx')
   }
 };
