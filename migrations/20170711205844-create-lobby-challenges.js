@@ -9,10 +9,18 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       lobbyId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Lobbies',
+          key: 'id'
+        }
       },
       challengeId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Challenges',
+          key: 'id'
+        }
       },
       complete: {
         type: Sequelize.BOOLEAN,

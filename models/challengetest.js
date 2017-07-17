@@ -1,9 +1,35 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var ChallengeTest = sequelize.define('ChallengeTest', {
-    id: DataTypes.INTEGER,
-    input: DataTypes.STRING,
-    // add output and other fields
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
+    challengeId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Challenges',
+        key: 'id'
+      }
+    },
+    input: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    input_type: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    output: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    output_type: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
   }, {
     classMethods: {
       associate: function(models) {

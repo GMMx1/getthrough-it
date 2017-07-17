@@ -1,11 +1,35 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var Challenge = sequelize.define('Challenge', {
-    skillLevel: DataTypes.FLOAT,
-    question: DataTypes.TEXT,
-    tests: DataTypes.TEXT,
-    name: DataTypes.STRING,
-    initial_editor: DataTypes.STRING
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
+    skillLevel: {
+      type: DataTypes.FLOAT,
+      defaultValue: 0.0
+    },
+    question: {
+      type: DataTypes.TEXT
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    initial_editor: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    createdAt: {
+      // allowNull: false,
+      type: DataTypes.DATE
+    },
+    updatedAt: {
+      // allowNull: false,
+      type: DataTypes.DATE
+    },
   }, {
     classMethods: {
       associate: function(models) {
