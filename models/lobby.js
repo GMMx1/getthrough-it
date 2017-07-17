@@ -13,13 +13,18 @@ module.exports = function(sequelize, DataTypes) {
     url: {
       type: DataTypes.STRING,
       unique: true,
-      allowNull: false
+      allowNull: false,
+      defaultValue: () =>
+        Hash.encode(Date.now())
     },
     peerId: {
       type: DataTypes.STRING
     },
     timeStart: {
-      type: DataTypes.DATE
+      type: DataTypes.DATE,
+      validate: {
+        isDate: true
+      }
     },
     timeEnd: {
       type: DataTypes.DATE
