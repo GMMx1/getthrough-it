@@ -7,13 +7,10 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.Integer
+        type: Sequelize.INTEGER
       },
-      name: {
-        type: Sequelize.STRING
-      }
       challengeId: {
-        type: Sequelize.Integer,
+        type: Sequelize.INTEGER,
         references: {
           model: 'Challenges',
           key: 'id'
@@ -23,15 +20,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      input_type: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
       output: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      output_type: {
         type: Sequelize.STRING,
         allowNull: false
       }
