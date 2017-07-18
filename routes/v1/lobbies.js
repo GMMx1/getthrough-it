@@ -16,8 +16,10 @@ export const show = (req, res) => {
 export const update = (req, res) => {
   const lobby = req.item
   const peerId = req.body.peerId
+  const editorState = req.body.editorState || lobby.editorState
+
   lobby
-    .update({ peerId })
+    .update({ peerId, editorState })
     .then(res.json.bind(res))
 }
 
