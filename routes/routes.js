@@ -7,4 +7,6 @@ export const AUTH_ME = '/me'
 export const AUTH_GITHUB = '/github'
 export const AUTH_GITHUB_CALLBACK = '/github/callback'
 
-export const CHALLENGE = `/challenges/:id`
+export const CHALLENGES = `/challenges`
+
+export const LOBBY_CHALLENGES = `/lobbies/:id/challenges`

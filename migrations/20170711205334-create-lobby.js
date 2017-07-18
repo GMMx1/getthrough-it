@@ -22,9 +22,6 @@ module.exports = {
       timeEnd: {
         type: Sequelize.DATE
       },
-      editorState: {
-        type: Sequelize.TEXT
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
