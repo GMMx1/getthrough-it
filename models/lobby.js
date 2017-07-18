@@ -29,9 +29,6 @@ module.exports = function(sequelize, DataTypes) {
     timeEnd: {
       type: DataTypes.DATE
     },
-    editorState: {
-      type: DataTypes.TEXT
-    },
     createdAt: {
       allowNull: false,
       type: DataTypes.DATE

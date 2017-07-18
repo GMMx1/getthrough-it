@@ -29,6 +29,10 @@ module.exports = function(sequelize, DataTypes) {
     output_type: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    hidden: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
   }, {
     classMethods: {

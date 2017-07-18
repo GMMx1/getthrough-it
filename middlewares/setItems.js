@@ -4,14 +4,15 @@ const setItem = ({
   modelName,
   fieldName = 'id',
   type = Number,
-  fieldStorage = 'req.params'
+  fieldStorage = 'req.item'
 }) => {
   return (req, res, next) => {
     try {
-      const field = type(req.params.id)
+      // second middleware id is on req.item
+      const field = type(req.item.id)
 
       db[modelName]
-        .findOne({
+        .findAll({
           where: {
             [fieldName]: field
           }
