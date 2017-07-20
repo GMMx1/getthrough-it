@@ -15,7 +15,6 @@ const router = express.Router()
 // }
 
 export const create = (req, res) => {
-  console.log('req.body: ', req.body)
   db['LobbyChallenges']
     .create({ lobbyId: req.item.id, challengeId: req.body.challengeId, editorState: req.body.editorState, createdAt: Date.now(), updatedAt: Date.now() } )
     .then(res.json.bind(res))
