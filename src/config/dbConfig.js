@@ -1,15 +1,6 @@
-"use strict";
+require('dotenv').config()
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var PORT = exports.PORT = process.env.PORT || 8000;
-var SECRET_KEY = exports.SECRET_KEY = process.env.SECRET_KEY;
-var GITHUB_CLIENT_ID = exports.GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
-var GITHUB_CLIENT_SECRET = exports.GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
-var GITHUB_CALLBACK_URL = exports.GITHUB_CALLBACK_URL = process.env.GITHUB_CALLBACK_URL;
-
-var DB_CONFIG = {
+module.exports = {
   "development": {
     "username": process.env.DB_USER_DEV,
     "password": process.env.DB_PASS_DEV,
@@ -32,6 +23,4 @@ var DB_CONFIG = {
     "host": process.env.RDS_HOSTNAME,
     "dialect": process.env.DB_DIALECT_PROD || 'mysql'
   }
-};
-
-exports.default = DB_CONFIG;
+}

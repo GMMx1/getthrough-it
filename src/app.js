@@ -28,6 +28,10 @@ app.use('/auth', githubAuthentication)
 app.use('/v1', ...v1)
 app.use('/peerjs', peerServer)
 
+app.get('/health', (req, res) => {
+  res.sendStatus(200)
+})
+
 app.use((err, req, res, next) => {
   console.error(err.stack)
   res.sendStatus(500)
