@@ -1,3 +1,5 @@
+export const ENV = process.env.NODE_ENV
+export const isProd = ENV === 'production'
 export const PORT = process.env.PORT || 8000
 export const SECRET_KEY = process.env.SECRET_KEY
 export const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID
