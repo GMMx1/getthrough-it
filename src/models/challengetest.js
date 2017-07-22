@@ -18,15 +18,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    input_type: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
     output: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    output_type: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -34,7 +26,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     }
-  }, {
+  },
+  {
+    timestamps: false,
+    freezeTableName: true,
     classMethods: {
       associate: function(models) {
         // associations can be defined here

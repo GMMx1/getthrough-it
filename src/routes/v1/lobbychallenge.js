@@ -94,14 +94,12 @@ export const show = (req, res) => {
              c.skillLevel,
              c.input_type,
              c.output_type,
-             c.createdAt,
-             c.updatedAt,
              lc.complete,
              lc.editorState,
              lc.duration`,
   { replacements: { lobbyId: req.params.id }, type: db.sequelize.QueryTypes.SELECT }
 ).then(challenges => {
-  console.log('challenges')
+  console.log('challenges in show lobbychallenges: ', challenges)
   for (var row of challenges) {
     var tests = [];
     var input_output = row['input_output'].slice(0, row['input_output'].length-5).split(' end|,');
@@ -109,7 +107,9 @@ export const show = (req, res) => {
     for (var pair of input_output) {
       pairArr = pair.split(' |separator| ')
       pairArr[0] = JSON.parse(pairArr[0]);
-      pairArr[1] = JSON.parse(pairArr[1]);
+      if (row.output_type !== "String") {
+        pairArr[1] = JSON.parse(pairArr[1]);
+      }
       pairArr[2] = pairArr[2] === '1' ? true : false;
       tests.push(pairArr)
     }
