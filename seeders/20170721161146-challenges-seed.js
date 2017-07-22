@@ -8,16 +8,16 @@ module.exports = {
         question: 'Create function that will return a boolean indicating if input is',
         initial_editor: 'function isPrime(n) {\n}',
         skillLevel: 0,
-        input_type: 'number',
-        output_type: 'boolean'
+        input_type: "['Number']",
+        output_type: 'Boolean'
       },
       { id: 2,
         name: 'getSquare',
         question: 'Write function that returns the square of the input',
         initial_editor: 'function getSquare(n) {\n}',
         skillLevel: 0,
-        input_type: 'number',
-        output_type: 'number'
+        input_type: "['Number']",
+        output_type: 'Number'
       },
     ]
 
