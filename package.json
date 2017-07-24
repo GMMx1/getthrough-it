@@ -34,6 +34,7 @@
     "dev:start": "nodemon -e js --exec babel-node src/app.js",
     "prod:build": "rimraf lib && babel src -d lib --ignore .test.js",
     "prod:start": "NODE_ENV=production && pm2 start lib/app.js && pm2 logs",
-    "prod:stop": "pm2 delete app"
+    "prod:stop": "pm2 delete app",
+    "db:migrate": "sequelize db:migrate"
   }
 }
