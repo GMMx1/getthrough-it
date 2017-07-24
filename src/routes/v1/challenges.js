@@ -20,8 +20,6 @@ export const show = (req, res) => {
              c.question,
              c.initial_editor,
              c.skillLevel,
-             c.input_type,
-             c.output_type,
              c.createdAt,
              c.updatedAt`,
   { type: db.sequelize.QueryTypes.SELECT }
@@ -33,13 +31,12 @@ export const show = (req, res) => {
     for (var pair of input_output) {
       pairArr = pair.split(' |separator| ')
       pairArr[0] = JSON.parse(pairArr[0]);
-      pairArr[1] = JSON.parse(pairArr[1]);
+
       pairArr[2] = pairArr[2] === '1' ? true : false;
       tests.push(pairArr)
     }
     row['input_output'] = tests;
   }
-    console.log(challenges)
     res.json(challenges)
   })
 }
@@ -51,12 +48,59 @@ export const create = (req, res) => {
       console.log('req.body.tests: ', req.body.tests)
       for (var test of req.body.tests) {
         ChallengeTestModel
-          .create({challengeId: dataValues.id, input: JSON.stringify(test[0]), output: test[1], hidden: JSON.parse(test[2])})
+          .create({challengeId: dataValues.id,
+            input: JSON.stringify(test[0]),
+            output: test[1],
+            hidden: JSON.parse(test[2])})
           .then(res.json.bind(res))
       }
     })
 }
 
+export const update = (req, res) => {
+  var challengeId;
+  try {
+    ChallengeModel
+    .findOne({
+      where: {
+        name: req.body.name
+      }
+    })
+    .then(challenge => {
+      if (challenge) {
+        const question = req.body.question
+        const name = req.body.name
+        const input_type = JSON.stringify(req.body.input_type)
+        const output_type = req.body.output_type
+        const initial_editor = req.body.initial_editor
+        return challenge.update( {question, name, input_type, output_type, initial_editor} )
+      } else {
+        res.sendStatus(404)
+      }
+    })
+    .then(({dataValues}) => {
+      challengeId = dataValues.id
+      return ChallengeTestModel
+        .destroy({
+          where: {
+            challengeId: dataValues.id
+          }
+        })
+    })
+    .then((item) => {
+      console.log("item: ", item)
+      for (var test of req.body.tests) {
+        ChallengeTestModel
+          .create({challengeId: challengeId,
+            input: JSON.stringify(test[0]),
+            output: test[1],
+            hidden: JSON.parse(test[2])})
+      }
+    })
+  } catch(e) {
+    res.sendStatus(400)
+  }
+}
 
 
 
@@ -64,6 +108,8 @@ export const create = (req, res) => {
 router.get(CHALLENGES, show)
 
 router.post(CHALLENGES, create)
+
+router.put(CHALLENGES, update)
 
 
 
