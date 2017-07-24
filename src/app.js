@@ -6,7 +6,6 @@ import passport from 'passport'
 import { ExpressPeerServer } from 'peer'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
-import WebSocket from 'ws'
 import url from 'url'
 
 import enableCors from './middlewares/enableCors'
@@ -17,8 +16,7 @@ import { connectPeer, disconnectPeer } from './utils/peerUtils'
 
 const app = express()
 const server = http.createServer(app)
-const peerServer = ExpressPeerServer(server, { debug: true, proxied: true })
-const wss = new WebSocket.Server({ server });
+const peerServer = ExpressPeerServer(server, { debug: true })
 
 app.use(bodyParser.json())
 app.use(enableCors)
@@ -46,13 +44,3 @@ server.listen(PORT, () => {
 
 peerServer.on('connection', connectPeer)
 peerServer.on('disconnect', disconnectPeer)
-
-wss.on('connection', function connection(ws, req) {
-  console.log(ws)
-
-  ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
-  });
-
-  ws.send('something');
-});
