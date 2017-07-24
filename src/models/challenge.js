@@ -22,6 +22,12 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    input_type: {
+      type: DataTypes.STRING,
+    },
+    output_type: {
+      type: DataTypes.STRING,
+    },
     createdAt: {
       // allowNull: false,
       type: DataTypes.DATE
@@ -31,6 +37,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE
     },
   }, {
+    timestamps: false,
     classMethods: {
       associate: function(models) {
         // associations can be defined here

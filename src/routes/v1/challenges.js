@@ -44,9 +44,28 @@ export const show = (req, res) => {
   })
 }
 
+export const create = (req, res) => {
+  ChallengeModel
+    .create({ question: req.body.question, name: req.body.name, input_type: JSON.stringify(req.body.input_type), output_type: req.body.output_type, initial_editor: req.body.initial_editor } )
+    .then(({dataValues}) => {
+      console.log('req.body.tests: ', req.body.tests)
+      for (var test of req.body.tests) {
+        ChallengeTestModel
+          .create({challengeId: dataValues.id, input: JSON.stringify(test[0]), output: test[1], hidden: JSON.parse(test[2])})
+          .then(res.json.bind(res))
+      }
+    })
+}
+
+
 
 
 
 router.get(CHALLENGES, show)
+
+router.post(CHALLENGES, create)
+
+
+
 
 export default router
