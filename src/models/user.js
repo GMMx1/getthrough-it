@@ -6,6 +6,7 @@ module.exports = function(sequelize, DataTypes) {
     photo_url: DataTypes.STRING,
     display_name: DataTypes.STRING
   }, {
+    freezeTableName: true,
     classMethods: {
       associate: function(models) {
         // associations can be defined here
