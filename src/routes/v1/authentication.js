@@ -76,7 +76,7 @@ router.get(
 
 router.get(AUTH_LOGOUT, (req, res) => {
   req.logout()
-  res.redirect(req.get('Referrer'))
+  res.sendStatus(200)
 })
 
 router.get(
