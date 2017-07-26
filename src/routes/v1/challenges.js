@@ -31,7 +31,6 @@ export const show = (req, res) => {
     for (var pair of input_output) {
       pairArr = pair.split(' |separator| ')
       pairArr[0] = JSON.parse(pairArr[0]);
-
       pairArr[2] = pairArr[2] === '1' ? true : false;
       tests.push(pairArr)
     }
