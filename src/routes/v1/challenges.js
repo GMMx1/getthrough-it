@@ -44,7 +44,6 @@ export const create = (req, res) => {
   ChallengeModel
     .create({ question: req.body.question, name: req.body.name, input_type: JSON.stringify(req.body.input_type), output_type: req.body.output_type, initial_editor: req.body.initial_editor } )
     .then(({dataValues}) => {
-      console.log('req.body.tests: ', req.body.tests)
       for (var test of req.body.tests) {
         ChallengeTestModel
           .create({challengeId: dataValues.id,
@@ -87,7 +86,6 @@ export const update = (req, res) => {
         })
     })
     .then((item) => {
-      console.log("item: ", item)
       for (var test of req.body.tests) {
         ChallengeTestModel
           .create({challengeId: challengeId,
