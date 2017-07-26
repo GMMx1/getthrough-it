@@ -38,7 +38,7 @@ module.exports = function(sequelize, DataTypes) {
     },
   }, {
     timestamps: false,
-    freezeTableName: true,
+    // freezeTableName: true,
     classMethods: {
       associate: function(models) {
         // associations can be defined here
