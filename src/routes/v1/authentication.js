@@ -69,7 +69,7 @@ router.get(AUTH_ME, authRequired, (req, res) => {
 router.get(
   AUTH_GITHUB, 
   (req, res, next) => {
-    req.session.from = req.get('Referrer')
+    req.session.from = req.get('Referer')
     passport.authenticate('github', { scope: ['user:email'] })(req, res, next)
   }
 )
@@ -84,9 +84,7 @@ router.get(
   passport.authenticate('github'), 
   (req, res) => {
     if (req.session.from) {
-      console.log(req.session.from)
-      // res.redirect(req.session.from)
-      res.redirect('https://www.getthrough.it')
+      res.redirect(req.session.from)
     } else {
       res.sendStatus(200)
     }
