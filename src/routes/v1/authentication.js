@@ -11,7 +11,8 @@ import {
 import {
   AUTH_GITHUB,
   AUTH_GITHUB_CALLBACK,
-  AUTH_ME
+  AUTH_ME,
+  AUTH_LOGOUT
 } from '../routes'
 
 import db from '../../models'
@@ -26,7 +27,6 @@ passport.use(new GitHubStrategy({
   callbackURL: GITHUB_CALLBACK_URL
   },
   function(accessToken, refreshToken, profile, done) {
-    console.log(profile)
     UserModel
       .findOrCreate({ 
         where: {
@@ -40,7 +40,6 @@ passport.use(new GitHubStrategy({
         done(null, response[0].dataValues)
       })
       .catch((error) => {
-        console.log('GOT HERE', error)
         done(error)
       })
   }
@@ -69,14 +68,26 @@ router.get(AUTH_ME, authRequired, (req, res) => {
 
 router.get(
   AUTH_GITHUB, 
-  passport.authenticate('github', { scope: ['user:email'] })
+  (req, res, next) => {
+    req.session.from = req.get('Referer')
+    passport.authenticate('github', { scope: ['user:email'] })(req, res, next)
+  }
 )
+
+router.get(AUTH_LOGOUT, (req, res) => {
+  req.logout()
+  res.sendStatus(200)
+})
 
 router.get(
   AUTH_GITHUB_CALLBACK, 
   passport.authenticate('github'), 
   (req, res) => {
-    res.sendStatus(200)
+    if (req.session.from) {
+      res.redirect(req.session.from)
+    } else {
+      res.sendStatus(200)
+    }
   }
 )
 
