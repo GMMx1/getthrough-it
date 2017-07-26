@@ -85,7 +85,8 @@ router.get(
   (req, res) => {
     if (req.session.from) {
       console.log(req.session.from)
-      res.redirect(req.session.from)  
+      // res.redirect(req.session.from)
+      res.redirect('https://getthrough.it')
     } else {
       res.sendStatus(200)
     }
