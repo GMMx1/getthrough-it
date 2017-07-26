@@ -84,7 +84,9 @@ router.get(
   passport.authenticate('github'), 
   (req, res) => {
     if (req.session.from) {
-      res.redirect(req.session.from)  
+      console.log(req.session.from)
+      // res.redirect(req.session.from)
+      res.redirect('https://www.getthrough.it')
     } else {
       res.sendStatus(200)
     }
