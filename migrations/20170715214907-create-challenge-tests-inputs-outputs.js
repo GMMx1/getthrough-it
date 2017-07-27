@@ -23,6 +23,10 @@ module.exports = {
       output: {
         type: Sequelize.STRING,
         allowNull: false
+      },
+      hidden: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       }
     });
   },

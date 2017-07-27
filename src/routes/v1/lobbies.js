@@ -13,6 +13,25 @@ export const show = (req, res) => {
   res.json(lobby)
 }
 
+// export const update = (req, res) => {
+//   const lobby = req.item
+//   if (req.item.peerId1 === null) {
+//     const peerId1 = req.body.peerId
+//     const editorState = req.body.editorState || lobby.editorState
+//     lobby
+//       .update({ peerId1, editorState }, {where: {}})
+//       .then(res.json.bind(res))
+//   } else if (req.item.peerId2 === null) {
+//     const peerId2 = req.body.peerId
+//     const editorState = req.body.editorState || lobby.editorState
+//     lobby
+//       .update({ peerId2, editorState })
+//       .then(res.json.bind(res))
+//   } else {
+//
+//   }
+// }
+
 export const update = (req, res) => {
   const lobby = req.item
   const peerId = req.body.peerId

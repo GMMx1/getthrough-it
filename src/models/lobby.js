@@ -17,7 +17,10 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: () =>
         Hash.encode(Date.now())
     },
-    peerId: {
+    peerId1: {
+      type: DataTypes.STRING
+    },
+    peerId2: {
       type: DataTypes.STRING
     },
     timeStart: {

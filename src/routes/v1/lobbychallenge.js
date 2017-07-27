@@ -99,7 +99,6 @@ export const show = (req, res) => {
              lc.duration`,
   { replacements: { lobbyId: req.params.id }, type: db.sequelize.QueryTypes.SELECT }
 ).then(challenges => {
-  console.log('challenges in show lobbychallenges: ', challenges)
   for (var row of challenges) {
     var tests = [];
     var input_output = row['input_output'].slice(0, row['input_output'].length-5).split(' end|,');
@@ -115,7 +114,6 @@ export const show = (req, res) => {
     }
     row['input_output'] = tests;
   }
-    console.log(challenges)
     res.json(challenges)
   })
 }

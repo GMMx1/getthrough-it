@@ -12,7 +12,7 @@ import enableCors from './middlewares/enableCors'
 import githubAuthentication from './routes/v1/authentication'
 import v1 from './routes/v1'
 import { ENV, isProd, PORT, SECRET_KEY } from './config'
-import { connectPeer, disconnectPeer } from './utils/peerUtils'
+import { connectPeer, disconnectPeer, findPeerID } from './utils/peerUtils'
 
 const app = express()
 const server = http.createServer(app)

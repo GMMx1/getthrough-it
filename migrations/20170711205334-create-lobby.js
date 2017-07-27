@@ -14,7 +14,10 @@ module.exports = {
         unique: true,
         allowNull: false
       },
-      peerId: {
+      peerId1: {
+        type: Sequelize.STRING
+      },
+      peerId2: {
         type: Sequelize.STRING
       },
       timeStart: {
