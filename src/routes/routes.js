@@ -9,5 +9,6 @@ export const AUTH_GITHUB = '/auth/github'
 export const AUTH_GITHUB_CALLBACK = '/auth/github/callback'
 
 export const CHALLENGES = `/challenges`
+export const DEL_CHALLENGES = `/challenges/:id`
 
 export const LOBBY_CHALLENGES = `/lobbies/:id/challenges`

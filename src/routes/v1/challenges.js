@@ -1,7 +1,7 @@
 import express from 'express'
 import _ from 'lodash'
 
-import { CHALLENGES } from '../routes'
+import { CHALLENGES, DEL_CHALLENGES } from '../routes'
 import db from '../../models'
 import authRequired from '../../middlewares/authRequired'
 import adminRequired from '../../middlewares/adminRequired'
@@ -9,6 +9,7 @@ import adminRequired from '../../middlewares/adminRequired'
 const router = express.Router()
 const ChallengeModel = db['Challenge']
 const ChallengeTestModel = db['ChallengeTest']
+const LobbyChallengeModel = db['LobbyChallenges']
 
 export const show = (req, res) => {
   db.sequelize.query(`
@@ -62,7 +63,7 @@ export const update = (req, res, next) => {
   ChallengeModel
   .findOne({
     where: {
-      name: req.body.name
+      id: req.body.id
     }
   })
   .then(challenge => {
@@ -99,6 +100,39 @@ export const update = (req, res, next) => {
   })
   .catch(next)
 }
+
+export const del = (req, res, next) => {
+  ChallengeTestModel
+  .destroy({
+    where: {
+      challengeId: req.params.id
+    }
+  })
+  .then(() => {
+    LobbyChallengeModel
+    .destroy({
+      where: {
+        challengeId: req.params.id
+      }
+    })
+  })
+  .then(() => {
+    ChallengeModel
+    .destroy({
+      where: {
+        id: req.params.id
+      }
+    })
+  })
+  .then(() => {
+    res.sendStatus(200)
+  })
+  .catch((e) => {
+    res.sendStatus(405)
+  })
+}
+
+router.delete(DEL_CHALLENGES, authRequired, adminRequired, del)
 
 router.get(CHALLENGES, show)
 
