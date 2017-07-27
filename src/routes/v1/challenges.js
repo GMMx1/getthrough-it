@@ -2,8 +2,9 @@ import express from 'express'
 import _ from 'lodash'
 
 import { CHALLENGES } from '../routes'
-// import setItems from '../../middlewares/setItems'
 import db from '../../models'
+import authRequired from '../../middlewares/authRequired'
+import adminRequired from '../../middlewares/adminRequired'
 
 const router = express.Router()
 const ChallengeModel = db['Challenge']
@@ -55,60 +56,54 @@ export const create = (req, res) => {
     })
 }
 
-export const update = (req, res) => {
-  var challengeId;
-  try {
-    ChallengeModel
-    .findOne({
-      where: {
-        name: req.body.name
-      }
-    })
-    .then(challenge => {
-      if (challenge) {
-        const question = req.body.question
-        const name = req.body.name
-        const input_type = JSON.stringify(req.body.input_type)
-        const output_type = req.body.output_type
-        const initial_editor = req.body.initial_editor
-        return challenge.update( {question, name, input_type, output_type, initial_editor} )
-      } else {
-        res.sendStatus(404)
-      }
-    })
-    .then(({dataValues}) => {
-      challengeId = dataValues.id
-      return ChallengeTestModel
-        .destroy({
-          where: {
-            challengeId: dataValues.id
-          }
-        })
-    })
-    .then((item) => {
-      for (var test of req.body.tests) {
-        ChallengeTestModel
-          .create({challengeId: challengeId,
-            input: JSON.stringify(test[0]),
-            output: test[1],
-            hidden: JSON.parse(test[2])})
-      }
-    })
-  } catch(e) {
-    res.sendStatus(400)
-  }
+export const update = (req, res, next) => {
+  let challengeId
+
+  ChallengeModel
+  .findOne({
+    where: {
+      name: req.body.name
+    }
+  })
+  .then(challenge => {
+    if (challenge) {
+      const question = req.body.question
+      const name = req.body.name
+      const input_type = JSON.stringify(req.body.input_type)
+      const output_type = req.body.output_type
+      const initial_editor = req.body.initial_editor
+      return challenge.update( {question, name, input_type, output_type, initial_editor} )
+    } else {
+      res.sendStatus(404)
+    }
+  })
+  .then(({dataValues}) => {
+    challengeId = dataValues.id
+    return ChallengeTestModel
+      .destroy({
+        where: {
+          challengeId: dataValues.id
+        }
+      })
+  })
+  .then((item) => {
+    for (var test of req.body.tests) {
+      ChallengeTestModel
+      .create({
+        challengeId: challengeId,
+        input: JSON.stringify(test[0]),
+        output: test[1],
+        hidden: JSON.parse(test[2])
+      })
+    }
+  })
+  .catch(next)
 }
-
-
-
 
 router.get(CHALLENGES, show)
 
-router.post(CHALLENGES, create)
+router.post(CHALLENGES, authRequired, adminRequired, create)
 
-router.put(CHALLENGES, update)
-
-
-
+router.put(CHALLENGES, authRequired, adminRequired, update)
 
 export default router

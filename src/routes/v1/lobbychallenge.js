@@ -3,20 +3,19 @@ import _ from 'lodash'
 
 import { LOBBY_CHALLENGES } from '../routes'
 import setItem from '../../middlewares/setItem'
-import setItems from '../../middlewares/setItems'
-// import setItems from '../../middlewares/setItems'
 import db from '../../models'
 
 const router = express.Router()
 
-// export const show = (req, res) => {
-//   const lobby = req.item
-//   res.json(lobby)
-// }
-
 export const create = (req, res) => {
   db['LobbyChallenges']
-    .create({ lobbyId: req.item.id, challengeId: req.body.challengeId, editorState: req.body.editorState, createdAt: Date.now(), updatedAt: Date.now() } )
+    .create({ 
+      lobbyId: req.item.id, 
+      challengeId: req.body.challengeId, 
+      editorState: req.body.editorState, 
+      createdAt: Date.now(), 
+      updatedAt: Date.now() 
+    })
     .then(res.json.bind(res))
 }
 
@@ -57,26 +56,6 @@ export const update = (req, res) => {
   }
 }
 
-const setItemConfig = {
-  modelName: 'Lobby',
-  fieldName: 'url',
-  type: String
-}
-
-
-
-// router.get(LOBBY_CHALLENGES, setItem(setItemConfig), setItems({modelName: 'LobbyChallenges', fieldName: 'lobbyId' }), show)
-
-router.post(LOBBY_CHALLENGES, setItem(setItemConfig), create)
-
-router.put(LOBBY_CHALLENGES, update)
-
-
-
-
-
-
-
 // query get all challenges for lobby (all challenge data for challenges both completed and incompleted)
 export const show = (req, res) => {
   db.sequelize.query(`
@@ -98,30 +77,36 @@ export const show = (req, res) => {
              lc.editorState,
              lc.duration`,
   { replacements: { lobbyId: req.params.id }, type: db.sequelize.QueryTypes.SELECT }
-).then(challenges => {
-  for (var row of challenges) {
-    var tests = [];
-    var input_output = row['input_output'].slice(0, row['input_output'].length-5).split(' end|,');
-    var pairArr;
-    for (var pair of input_output) {
-      pairArr = pair.split(' |separator| ')
-      pairArr[0] = JSON.parse(pairArr[0]);
-      if (row.output_type !== "String") {
-        pairArr[1] = JSON.parse(pairArr[1]);
+  ).then(challenges => {
+    for (var row of challenges) {
+      var tests = [];
+      var input_output = row['input_output'].slice(0, row['input_output'].length-5).split(' end|,');
+      var pairArr;
+      for (var pair of input_output) {
+        pairArr = pair.split(' |separator| ')
+        pairArr[0] = JSON.parse(pairArr[0]);
+        if (row.output_type !== "String") {
+          pairArr[1] = JSON.parse(pairArr[1]);
+        }
+        pairArr[2] = pairArr[2] === '1' ? true : false;
+        tests.push(pairArr)
       }
-      pairArr[2] = pairArr[2] === '1' ? true : false;
-      tests.push(pairArr)
+      row['input_output'] = tests;
     }
-    row['input_output'] = tests;
-  }
     res.json(challenges)
   })
 }
 
+const setItemConfig = {
+  modelName: 'Lobby',
+  fieldName: 'url',
+  type: String
+}
+
 router.get(LOBBY_CHALLENGES, show)
 
+router.post(LOBBY_CHALLENGES, setItem(setItemConfig), create)
 
-
-
+router.put(LOBBY_CHALLENGES, update)
 
 export default router

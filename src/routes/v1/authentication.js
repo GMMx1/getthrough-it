@@ -57,7 +57,8 @@ passport.deserializeUser((id, done) => {
         id: user.id,
         display_name: user.display_name,
         email: user.email,
-        photo_url: user.photo_url
+        photo_url: user.photo_url,
+        isAdmin: user.isAdmin
       })
     })
 })

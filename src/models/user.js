@@ -4,7 +4,8 @@ module.exports = function(sequelize, DataTypes) {
     github_uid: DataTypes.STRING,
     email: DataTypes.STRING,
     photo_url: DataTypes.STRING,
-    display_name: DataTypes.STRING
+    display_name: DataTypes.STRING,
+    isAdmin: DataTypes.BOOLEAN
   }, {
     freezeTableName: true,
     classMethods: {
