@@ -8,6 +8,8 @@ export const AUTH_LOGOUT = '/auth/logout'
 export const AUTH_GITHUB = '/auth/github'
 export const AUTH_GITHUB_CALLBACK = '/auth/github/callback'
 
+export const USER_LOBBIES = '/users/:id/lobbies'
+
 export const CHALLENGES = `/challenges`
 export const DEL_CHALLENGES = `/challenges/:id`
 

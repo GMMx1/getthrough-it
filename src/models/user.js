@@ -10,7 +10,8 @@ module.exports = function(sequelize, DataTypes) {
     freezeTableName: true,
     classMethods: {
       associate: function(models) {
-        // associations can be defined here
+        console.log(this)
+        this.hasMany(models.UserLobbies)
       }
     }
   });
